@@ -1,0 +1,130 @@
+<!DOCTYPE HTNL>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>Curso de VueJS 2</title>
+        <style>
+            .like{
+                background: green;
+                color:white;
+                padding: 20px;
+            }
+        </style>
+        <body>
+            <div id="app">
+                {{texto}}
+            </div>
+            <div id="tercera">
+                    {{texto}}
+                </div>
+            <main>
+                <!-- Componentes dinamicos -->
+                <button @click="elegido= 'padre'">Cargar padre</button>
+                <component :is="elegido"></component>
+
+
+
+
+
+
+                <hr/>
+                <padre></padre>
+                <hr/>
+                <peliculas></peliculas>
+                <hr/>
+                <frutas :objeto="superfruta" inline-template>
+                    <div>
+                        <h1>COMPOENENTE FRUTAS</h1>
+                        <h3>{{objeto.nombre}}</h3>
+                    </div>
+                </frutas>
+
+
+
+
+
+                <hr>
+                    <h1>Listado ajax</h1>
+                    <ol v-if="posts">
+                        <li v-for="(post, index) in posts">
+                            {{post.title}}
+                        </li>
+                    </ol>
+                    <span v-else>cargando</span>
+
+                <hr>
+
+             <h1>{{nombreYapellidos | mayusculas}}</h1>   
+             <hr/>   
+            <!-- Interpolacion / imprimir el contenido de una variable del modelo -->
+                <h1>{{ texto }}</h1>
+                <h2 v-text="texto"></h2>
+                <hr/>
+
+            <!-- two way data binding / enlace de datos bidireccional -->
+                <input type="text" v-model="nombre">
+                <p>El nombre es: {{nombre}}</p>
+                </hr>
+
+            <!-- Directivas condicionales v-if -->
+                Nota:<input type="text" v-model="nota">
+                <strong v-if="nota && nota >=5 && nota <= 99">!!estas aprobado</strong>
+                <strong v-else-if="nota && nota == 100">!!EXCELENTE</strong>
+                <span v-else>Has suspendido</span>
+                <hr/>
+
+            <!-- Directivas de bucles v-for -->
+            <h1>Listado de peliculas (array)</h1>
+                <ol>
+                    <li v-for="pelicula in peliculas">{{pelicula}}</li>
+                </ol>
+
+
+            <h1>Listado de peliculas Ordenado</h1>
+            <input type="search" v-model="busqueda" placeholder="buscar peli">
+                <ol>
+                    <li @click="marcar(index)" v-bind:class="{like: index == confirmado}" v-for="(fruta, index) in buscarFruta">
+                        {{fruta.nombre | mayusculas}}
+                    </li>
+                </ol>
+
+            <h1>Listado de frutas(array de objetos)</h1>
+                <ul>
+                    <li v-for="(fruta, index) in frutas">
+                    {{index}}: {{ fruta.nombre }} - {{ fruta.temporada }}</li>
+                </ul>
+
+            <h1>Listado de elementos de superfurta (objeto)</h1>
+                <ul>
+                    <li v-for="(value, key, index) in superfruta">
+                    {{index}}: {{ key }} - {{ value }}</li>
+                </ul>
+
+                <hr/>
+
+               
+                <ol>
+                    <li v-for="(pelicula, index) in peliculas">{{pelicula}} <button @click="borrarPelicula(index)">Eliminar Pelicula</button></li>
+                </ol>
+
+                <form @submit.prevent="crearPelicula()">
+                    <input type="text" v-model="peliculaNueva">
+                    <input type="submit" value="Guardar peli">
+                </form>
+
+
+                <button v-on:click="crearPelicula()">Crear Pelicula</button>
+                <button @click="borrarPelicula()">Eliminar Pelicula</button>
+
+                <hr/>
+                <h1>Imprimir objeto</h1>
+                <pre>
+                    {{$data}} <!-- muestra el objeto completo -->
+                </pre>
+            </main>
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <script src="js/main.js"></script>
+        </body>
+    </head>
+</html>
